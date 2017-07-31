@@ -1,0 +1,39 @@
+package ua.nure.koval.Practice6.part3;
+
+public final class Part3 {
+
+	private Part3() {
+	}
+
+	public static void main(String[] args) {
+		Parking p = new Parking(5);
+		System.out.println(p.toString());
+		p.arrive(0, 2);
+		System.out.println(p.toString());
+
+		p.arrive(0, 8);
+		System.out.println(p.toString());
+
+		p.arrive(4, 1);
+		System.out.println(p.toString());
+
+		p.leave(8);
+		System.out.println(p.toString());
+
+		p.arrive(2, 5);
+		System.out.println(p.toString());
+
+		p.leave(1);
+		System.out.println(p.toString());
+
+		p.arrive(2, 3);
+		System.out.println(p.toString());
+
+		p.leave(2);
+		System.out.println(p.toString());
+
+		p.arrive(0, 4);
+		System.out.println(p.toString());
+	}
+
+}

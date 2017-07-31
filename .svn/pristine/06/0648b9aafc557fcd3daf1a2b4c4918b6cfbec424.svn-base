@@ -1,0 +1,113 @@
+package ua.nure.koval.Practice4;
+
+import java.io.ByteArrayInputStream;
+import java.io.InputStream;
+import java.io.UnsupportedEncodingException;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
+
+import org.junit.Assert;
+import org.junit.Before;
+import org.junit.Test;
+
+import static junit.framework.TestCase.fail;
+
+public class Part3Test {
+
+	private static final String ENCODING = "Cp1251";
+
+	private static final String REGEXP_FOR_INTEGER = "(^|\\s)(\\d+)(\\s|$)";
+	private static final String REGEXP_FOR_DOUBLE = "(^|\\s)([\\d+]*\\.\\d*)(\\s|$)";
+	private static final String REGEXP_FOR_CHAR = "(?i)(^|(?<=\\s))[a-z\\u0410-\\u044F]($|(?=\\s))";
+	private static final String REGEXP_FOR_STRING = "[\\u0410-\\u044Fa-zA-Z]{2,}";
+
+	@Test
+	public void testDoubleValue() {
+		int counter = 0;
+		String[] arr = Part3.doubleValue().split(" ");
+		Pattern p = Pattern.compile(REGEXP_FOR_DOUBLE);
+		Matcher m = p.matcher(Part3.getString().get(0));
+		while (m.find()) {
+			++counter;
+		}
+		Assert.assertEquals(counter, arr.length);
+	}
+
+	@Test
+	public void testCharValue() {
+		int counter = 0;
+		String[] arr = Part3.charValue().split(" ");
+		Pattern p = Pattern.compile(REGEXP_FOR_CHAR);
+		Matcher m = p.matcher(Part3.getString().get(0));
+		while (m.find()) {
+			++counter;
+		}
+		Assert.assertEquals(counter, arr.length);
+	}
+
+	@Test
+	public void testStringValue() {
+		int counter = 0;
+		String[] arr = Part3.stringValue().split(" ");
+		Pattern p = Pattern.compile(REGEXP_FOR_STRING);
+		Matcher m = p.matcher(Part3.getString().get(0));
+		while (m.find()) {
+			++counter;
+		}
+		Assert.assertEquals(counter, arr.length);
+	}
+
+	@Test
+	public void testIntegerValue() {
+		int counter = 0;
+		String[] arr = Part3.integerValue().split(" ");
+		Pattern p = Pattern.compile(REGEXP_FOR_INTEGER);
+		Matcher m = p.matcher(Part3.getString().get(0));
+		while (m.find()) {
+			++counter;
+		}
+		Assert.assertEquals(counter, arr.length);
+	}
+
+	@Test
+	public void TestInputStop() {
+		InputStream in = System.in;
+		try {
+			System.setIn(new ByteArrayInputStream(
+					"char\nString\nint\ndouble\nstop".getBytes(ENCODING)));
+		} catch (UnsupportedEncodingException e) {
+			System.out.println("Wrong encoding in Part3Test");
+		}
+		Part3.input();
+		System.setIn(in);
+	}
+
+	@Test
+	public void TestInputWrong() {
+		InputStream in = System.in;
+		try {
+			System.setIn(new ByteArrayInputStream("char\nString\nint\ndouble\nfdsfds".getBytes(ENCODING)));
+			Part3.input();
+			fail();
+		} catch (UnsupportedEncodingException e) {
+			System.out.println("Wrong encoding in Part3Test");
+		} catch (IllegalArgumentException e) {
+			System.out.println("test not failed");
+		}
+		System.setIn(in);
+	}
+
+	@Test
+	public void testMain() {
+		InputStream in = System.in;
+		try {
+			System.setIn(new ByteArrayInputStream(
+					"char\nString\nint\ndouble\nstop".getBytes(ENCODING)));
+		} catch (UnsupportedEncodingException e) {
+			System.out.println("Wrong encoding in Part3Test");
+		}
+
+		Part3.main(new String[] {});
+		System.setIn(in);
+	}
+}

@@ -1,0 +1,9 @@
+
+Asquid:S1068"'Remove this unused "log" private field.(оз╚Ж¤    
+@squid:S1989"&Add a "try/catch" block for "forward".(▐°▓х¤    
+?squid:S1948"%Make "log" transient or serializable.(оз╚Ж¤    
+>squid:S1989"$Add a "try/catch" block for "doGet".(ЧЇ╓в°    
+ssquid:S2226"YRemove this misleading mutable servlet instance fields or make it "static" and/or "final"(оз╚Ж¤    
+@squid:S1989"&Add a "try/catch" block for "forward".(▐°▓х¤    
+rsquid:S00120"WRename this package name to match the regular expression '^[a-z]+(\.[a-z][a-z0-9]*)*$'.(╕ь╡я     
+>squid:S1989"$Add a "try/catch" block for "doGet".(ЧЇ╓в°    

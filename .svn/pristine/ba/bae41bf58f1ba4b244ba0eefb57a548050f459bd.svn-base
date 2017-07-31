@@ -1,0 +1,49 @@
+package ua.nure.koval.Practice4;
+
+import java.io.FileInputStream;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.OutputStream;
+import java.util.Scanner;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
+
+public class Part1 {
+
+    private Part1() {
+    }
+
+    public static final String FILE_NAME = "part1.txt";
+
+    public static final String ENCODING = "CP1251";
+
+    public static void main(String[] args) throws IOException {
+
+        InputStream in = new FileInputStream(FILE_NAME);
+
+        input(in, System.out);
+    }
+
+    public static void input(InputStream in, OutputStream out) throws IOException {
+        StringBuffer sb = new StringBuffer();
+        Scanner scanner = new Scanner(in, ENCODING);
+        while (scanner.hasNextLine()) {
+            sb.append(scanner.nextLine());
+            sb.append(System.lineSeparator());
+        }
+
+        Matcher matcher = Pattern.compile("[\\w]{4,}",
+                Pattern.MULTILINE
+                        | Pattern.UNICODE_CHARACTER_CLASS
+                        | Pattern.CASE_INSENSITIVE).matcher(sb);
+
+        sb = new StringBuffer();
+        while (matcher.find()) {
+            matcher.appendReplacement(sb, matcher.group().toUpperCase());
+        }
+        matcher.appendTail(sb);
+
+        out.write(sb.toString().getBytes(ENCODING));
+    }
+
+}

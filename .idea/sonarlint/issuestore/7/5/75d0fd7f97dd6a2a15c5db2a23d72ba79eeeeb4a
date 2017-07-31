@@ -1,0 +1,9 @@
+
+Gsquid:S1989"&Add a "try/catch" block for "forward".(Þø²åýÿÿÿÿ8é“¿âÁ+
+zsquid:S2226"YRemove this misleading mutable servlet instance fields or make it "static" and/or "final"(‰ùõ°úÿÿÿÿ8é“¿âÁ+
+Esquid:S1989"$Add a "try/catch" block for "doGet".(—ôÖ¢øÿÿÿÿ8é“¿âÁ+
+ysquid:S00120"WRename this package name to match the regular expression '^[a-z]+(\.[a-z][a-z0-9]*)*$'.(¸ìµïÿÿÿÿÿ8é“¿âÁ+
+Gsquid:S1989"&Add a "try/catch" block for "forward".(Þø²åýÿÿÿÿ8é“¿âÁ+
+Esquid:S1989"$Add a "try/catch" block for "doGet".(—ôÖ¢øÿÿÿÿ8é“¿âÁ+
+Fsquid:S1948"%Make "log" transient or serializable.(‰ùõ°úÿÿÿÿ8é“¿âÁ+
+Hsquid:S1068"'Remove this unused "log" private field.(‰ùõ°úÿÿÿÿ8ì»ÇâÁ+

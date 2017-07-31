@@ -1,0 +1,89 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<entity:medicines xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                  xmlns:entity="http://nure.ua/koval/SummaryTask3/entity"
+                  xsi:schemaLocation="http://nure.ua/koval/SummaryTask3/entity input.xsd">
+
+    <medicine>
+        <name>Aspirine</name>
+        <pharm>Vixim</pharm>
+        <group>Pain killer</group>
+        <analogs>
+            <analogName>Citramone</analogName>
+            <analogName>Aflubin</analogName>
+            <analogName>Cetril</analogName>
+            <analogName>Citramone A</analogName>
+            <analogName>Vicodin</analogName>
+            <analogName>Viagra</analogName>
+        </analogs>
+        <versions>
+            <version>
+                <certificate>
+                    <number>011</number>
+                    <startDate>2015-07-04T00:00:00</startDate>
+                    <expirationDate>2018-02-01T00:00:00</expirationDate>
+                    <registeredBy>Green Company</registeredBy>
+                </certificate>
+                <package>
+                    <packageType>Pillows</packageType>
+                    <amount>12</amount>
+                    <price>50</price>
+                </package>
+                <dosage>
+                    <value>1</value>
+                    <period>2 hour</period>
+                </dosage>
+            </version>
+            <version>
+                <certificate>
+                    <number>5345</number>
+                    <startDate>2013-11-23T00:00:00</startDate>
+                    <expirationDate>2019-02-01T00:00:00</expirationDate>
+                    <registeredBy>Maxim Company</registeredBy>
+                </certificate>
+                <package>
+                    <packageType>Pillows</packageType>
+                    <amount>24</amount>
+                    <price>90</price>
+                </package>
+                <dosage>
+                    <value>1</value>
+                    <period>2 hour</period>
+                </dosage>
+            </version>
+        </versions>
+    </medicine>
+
+    <medicine>
+        <name>Viagra</name>
+        <pharm>Pfizer</pharm>
+        <group>Erectile dysfunction</group>
+        <versions>
+            <version>
+                <certificate>
+                    <number>764</number>
+                    <startDate>1993-03-02T00:00:00</startDate>
+                    <expirationDate>2020-02-01T00:00:00</expirationDate>
+                    <registeredBy>Pfizer inc.</registeredBy>
+                </certificate>
+
+                <!-- INVALID ATRIBUTE -->
+                <package invalid-atribute="invalid-atribute">
+
+
+                    <packageType>Tablets</packageType>
+                    <amount>5</amount>
+                    <price>25.50</price>
+                </package>
+
+                <!-- INVALID TAG -->
+                <invaid-tag/>
+
+                <dosage>
+                    <value>5</value>
+                    <period>2 hour</period>
+                </dosage>
+            </version>
+        </versions>
+    </medicine>
+
+</entity:medicines>

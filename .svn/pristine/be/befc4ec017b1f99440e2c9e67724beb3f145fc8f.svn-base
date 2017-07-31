@@ -1,0 +1,369 @@
+package ua.nure.koval.SummaryTask3.controller;
+
+import org.w3c.dom.Document;
+import org.w3c.dom.Element;
+import org.w3c.dom.Node;
+import org.w3c.dom.NodeList;
+import org.xml.sax.SAXException;
+import org.xml.sax.SAXParseException;
+import org.xml.sax.helpers.DefaultHandler;
+import ua.nure.koval.SummaryTask3.constants.Constants;
+import ua.nure.koval.SummaryTask3.constants.XML;
+import ua.nure.koval.SummaryTask3.entity.*;
+import ua.nure.koval.SummaryTask3.entity.Package;
+import ua.nure.koval.SummaryTask3.util.DateUtil;
+
+import javax.xml.parsers.DocumentBuilder;
+import javax.xml.parsers.DocumentBuilderFactory;
+import javax.xml.parsers.ParserConfigurationException;
+import javax.xml.transform.OutputKeys;
+import javax.xml.transform.TransformerException;
+import javax.xml.transform.TransformerFactory;
+import javax.xml.transform.dom.DOMSource;
+import javax.xml.transform.stream.StreamResult;
+import java.io.File;
+import java.io.IOException;
+import java.math.BigDecimal;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
+
+/**
+ * DOM parser for Medicine entities.
+ * Reads and writes Medicine entities from/to XML.
+ *
+ * @author M.Koval
+ */
+public class DOMController {
+
+    /**
+     * Name of XML
+     */
+    private String fileName;
+
+    /**
+     * Stores Medecine entities
+     */
+    private List<Medicine> medicines;
+
+    public DOMController(String fileName) {
+        this.fileName = fileName;
+    }
+
+    /**
+     * Saves Medecines to XML file.
+     *
+     * @param medicines   List<Medicine> objects to be saved.
+     * @param xmlFileName Output XML file name.
+     */
+    public static void saveToXML(List<Medicine> medicines, String xmlFileName)
+            throws ParserConfigurationException, TransformerException {
+        // Test -> DOM -> XML
+        saveToXML(addMedecinesToDom(medicines), xmlFileName);
+    }
+
+    /**
+     * Save DOM to XML.
+     *
+     * @param document    DOM to be saved.
+     * @param xmlFileName Output XML file name.
+     */
+    public static void saveToXML(Document document, String xmlFileName)
+            throws TransformerException {
+
+        StreamResult result = new StreamResult(new File(xmlFileName));
+
+        // set up transformation
+        TransformerFactory tf = TransformerFactory.newInstance();
+        javax.xml.transform.Transformer t = tf.newTransformer();
+        t.setOutputProperty(OutputKeys.INDENT, "yes");
+
+        // run transformation
+        t.transform(new DOMSource(document), result);
+    }
+
+    /**
+     * Interface method for current implementation of InputMedicineDOMController
+     *
+     * @param medicinesDom DOM of Medicines
+     * @return list of Medicine entities
+     */
+    public static List<Medicine> getMedicinesFromDom(Document medicinesDom) {
+        ua.nure.koval.SummaryTask3.controller.InputMedicineDOMController in = new InputMedicineDOMController();
+        return in.getMedicinesFromDom(medicinesDom);
+    }
+
+    /**
+     * Interface method for current implementation of OutputMedicineDOMController
+     *
+     * @param medicines list of Medicine entities
+     * @return DOM of Medicines
+     * @throws ParserConfigurationException
+     */
+    public static Document addMedecinesToDom(List<Medicine> medicines) throws ParserConfigurationException {
+        ua.nure.koval.SummaryTask3.controller.OutputMedicineDOMController out = new OutputMedicineDOMController();
+        return out.addMedicinesToDom(medicines);
+    }
+
+    public static void main(String[] args) throws Exception {
+        // try to parse NOT valid XML document with validation on (failed)
+        DOMController controller = new DOMController(Constants.INVALID_XML_FILE);
+        try {
+            // parse with validation (failed)
+            controller.parse(true);
+        } catch (SAXException e) {
+            System.err.printf(Constants.INVALID_OUTPUT, e.getMessage(), controller.getMedicines());
+        }
+
+        // try to parse NOT valid XML document with validation off (success)
+        controller.parse(false);
+
+        // we have Test object at this point:
+        System.out.printf(Constants.VALID_OUTPUT, controller.getMedicines());
+
+        // save test in XML file
+        List<Medicine> medicines = controller.getMedicines();
+        DOMController.saveToXML(medicines, Constants.INVALID_XML_FILE + ".dom-result.xml");
+    }
+
+    public List<Medicine> getMedicines() {
+        return medicines;
+    }
+
+    /**
+     * Parses XML document.
+     *
+     * @param validate If true validate XML document against its XML schema.
+     */
+    public void parse(boolean validate) throws ParserConfigurationException, IOException, SAXException {
+        // obtain DOM parser
+        DocumentBuilderFactory dbf = DocumentBuilderFactory.newInstance();
+        setPropertiesForFactory(validate, dbf);
+
+        DocumentBuilder db = dbf.newDocumentBuilder();
+
+        // set error handler
+        db.setErrorHandler(new DefaultHandler() {
+            @Override
+            public void error(SAXParseException e) throws SAXException {
+                // throw exception if XML document is NOT valid
+                throw e;
+            }
+        });
+
+        // parse XML document
+        Document document = db.parse(fileName);
+
+        medicines = getMedicinesFromDom(document);
+    }
+
+    private void setPropertiesForFactory(boolean validate, DocumentBuilderFactory dbf) throws ParserConfigurationException {
+        // XML document contains namespaces
+        dbf.setNamespaceAware(true);
+
+        // make parser validating
+        if (validate) {
+            // turn validation on
+            dbf.setFeature(Constants.FEATURE_TURN_VALIDATION_ON, true);
+
+            // turn on xsd validation
+            dbf.setFeature(Constants.FEATURE_TURN_SCHEMA_VALIDATION_ON, true);
+        }
+    }
+
+    /**
+     * InputMedicineDOMController uses for
+     * reading List<Medicine> entity from xml DOM.
+     */
+    private static class InputMedicineDOMController implements ua.nure.koval.SummaryTask3.controller.InputMedicineDOMController {
+        public List<Medicine> getMedicinesFromDom(Document medicinesDom) {
+            NodeList nList = medicinesDom.getElementsByTagName(XML.MEDICINE.value());
+            List<Medicine> medicines = new ArrayList<>();
+            for (int i = 0; i < nList.getLength(); i++) {
+                Element medicineDom = (Element) nList.item(i);
+                Medicine medicine = getMedicineFromDom(medicineDom);
+                medicines.add(medicine);
+            }
+            return medicines;
+        }
+
+        public Medicine getMedicineFromDom(Element medicineDom) {
+            List<String> analogs = getAnalogsFromDom(medicineDom);
+            List<Version> versions = getVersionsFromDom(medicineDom);
+            return new Medicine(
+                    getTextFromTag(medicineDom, XML.NAME.value()),
+                    getTextFromTag(medicineDom, XML.PHARM.value()),
+                    Group.fromValue(getTextFromTag(medicineDom, XML.GROUP.value())),
+                    analogs,
+                    versions
+            );
+        }
+
+        public List<String> getAnalogsFromDom(Element medicineDom) {
+            Element analogsDom = (Element) medicineDom.getElementsByTagName(XML.ANALOGS.value()).item(0);
+
+            if (analogsDom == null) {
+                return Collections.emptyList();
+            }
+
+            NodeList nList = analogsDom.getElementsByTagName(XML.ANALOG_NAME.value());
+            List<String> analogs = new ArrayList<>();
+            for (int j = 0; j < nList.getLength(); j++) {
+                Node item = nList.item(j);
+                String name = item.getTextContent();
+                analogs.add(name);
+            }
+            return analogs;
+        }
+
+        public List<Version> getVersionsFromDom(Element medicineDom) {
+            Element versionsDom = (Element) medicineDom.getElementsByTagName(XML.VERSIONS.value()).item(0);
+            NodeList nList = versionsDom.getElementsByTagName(XML.VERSION.value());
+            List<Version> versions = new ArrayList<>();
+            for (int k = 0; k < nList.getLength(); k++) {
+                Element versionDom = (Element) nList.item(k);
+
+                Version version = new Version(
+                        getCertificateFromDom(versionDom),
+                        getaPackageFromDom(versionDom),
+                        getDosageFromDom(versionDom)
+                );
+
+                versions.add(version);
+            }
+            return versions;
+        }
+
+        public Certificate getCertificateFromDom(Element versionDom) {
+            Element certificateDom = (Element) versionDom.getElementsByTagName(XML.CERTIFICATE.value()).item(0);
+            return new Certificate(
+                    Integer.parseInt(getTextFromTag(certificateDom, XML.NUMBER.value())),
+                    DateUtil.fromString(getTextFromTag(certificateDom, XML.START_DATE.value())),
+                    DateUtil.fromString(getTextFromTag(certificateDom, XML.EXPIRATION_DATE.value())),
+                    getTextFromTag(certificateDom, XML.REGISTERED_BY.value())
+            );
+        }
+
+        public Package getaPackageFromDom(Element versionDom) {
+            Element packageDom = (Element) versionDom.getElementsByTagName(XML.PACKAGE.value()).item(0);
+            return new Package(
+                    getTextFromTag(packageDom, XML.PACKAGE_TYPE.value()),
+                    Integer.parseInt(getTextFromTag(packageDom, XML.AMOUNT.value())),
+                    new BigDecimal(getTextFromTag(packageDom, XML.PRICE.value()))
+            );
+        }
+
+        public Dosage getDosageFromDom(Element versionDom) {
+            Element dosageDom = (Element) versionDom.getElementsByTagName(XML.DOSAGE.value()).item(0);
+            return new Dosage(
+                    Integer.parseInt(getTextFromTag(dosageDom, XML.VALUE.value())),
+                    getTextFromTag(dosageDom, XML.PERIOD.value())
+            );
+        }
+
+        private String getTextFromTag(Element tag, String value) {
+            return tag.getElementsByTagName(value).item(0).getTextContent();
+        }
+    }
+
+    /**
+     * OutputMedicineDOMController uses for
+     * writing List<Medicine> entity to xml DOM.
+     */
+    private static class OutputMedicineDOMController implements ua.nure.koval.SummaryTask3.controller.OutputMedicineDOMController {
+
+        /* uses for createtab by document.createElement() */
+        private Document document;
+
+        public Document addMedicinesToDom(List<Medicine> medicines) throws ParserConfigurationException {
+            DocumentBuilderFactory dbf = DocumentBuilderFactory.newInstance();
+            dbf.setNamespaceAware(true);
+            DocumentBuilder db = dbf.newDocumentBuilder();
+            document = db.newDocument();
+
+            Element medecinesDom = document.createElement(XML.MEDICINES.value());
+            addMedicineToDom(medicines, medecinesDom);
+            document.appendChild(medecinesDom);
+            return document;
+        }
+
+        public void addMedicineToDom(List<Medicine> medicines, Element medecinesDom) {
+            for (Medicine medicine : medicines) {
+                Element medecineDom = document.createElement(XML.MEDICINE.value());
+
+                addTextToDom(medecineDom, XML.NAME.value(), medicine.getName());
+                addTextToDom(medecineDom, XML.PHARM.value(), medicine.getPharm());
+                addTextToDom(medecineDom, XML.GROUP.value(), medicine.getGroup().value());
+                addAnalogsToDom(medicine, medecineDom);
+                addVersionsToDom(medicine, medecineDom);
+
+                medecinesDom.appendChild(medecineDom);
+            }
+        }
+
+        public void addAnalogsToDom(Medicine medicine, Element medecineDom) {
+            Element analogsDom = document.createElement(XML.ANALOGS.value());
+            for (String analogName : medicine.getAnalogs()) {
+                addTextToDom(analogsDom, XML.ANALOG_NAME.value(), analogName);
+            }
+            medecineDom.appendChild(analogsDom);
+        }
+
+        public void addVersionsToDom(Medicine medicine, Element medecineDom) {
+            Element versionsDom = document.createElement(XML.VERSIONS.value());
+            for (Version version : medicine.getVersions()) {
+                Element versionDom = document.createElement(XML.VERSION.value());
+
+                addCertificateToDom(version, versionDom);
+                addPackageToDom(version, versionDom);
+                addDosageToDom(version, versionDom);
+
+                versionsDom.appendChild(versionDom);
+            }
+            medecineDom.appendChild(versionsDom);
+        }
+
+        public void addCertificateToDom(Version version, Element versionDom) {
+            // add certificate element
+            Element certificateDom = document.createElement(XML.CERTIFICATE.value());
+            // add number text
+            addTextToDom(certificateDom, XML.NUMBER.value(), String.valueOf(version.getCertificate().getNumber()));
+            // add start date text
+            addTextToDom(certificateDom, XML.START_DATE.value(), DateUtil.toString(version.getCertificate().getStartDate()));
+            // add expiration date text
+            addTextToDom(certificateDom, XML.EXPIRATION_DATE.value(), DateUtil.toString(version.getCertificate().getExpirationDate()));
+            // add registered by text
+            addTextToDom(certificateDom, XML.REGISTERED_BY.value(), version.getCertificate().getRegisteredBy());
+            versionDom.appendChild(certificateDom);
+        }
+
+        public void addPackageToDom(Version version, Element versionDom) {
+            // add package element
+            Element packageDom = document.createElement(XML.PACKAGE.value());
+            // add package type text
+            addTextToDom(packageDom, XML.PACKAGE_TYPE.value(), version.getaPackage().getPackageType());
+            // add amount text
+            addTextToDom(packageDom, XML.AMOUNT.value(), String.valueOf(version.getaPackage().getAmount()));
+            // add price text
+            addTextToDom(packageDom, XML.PRICE.value(), String.valueOf(version.getaPackage().getPrice()));
+            versionDom.appendChild(packageDom);
+        }
+
+        public void addDosageToDom(Version version, Element versionDom) {
+            // add dosage element
+            Element dosageDom = document.createElement(XML.DOSAGE.value());
+            // add value text
+            addTextToDom(dosageDom, XML.VALUE.value(), String.valueOf(version.getDosage().getValue()));
+            // add period text
+            addTextToDom(dosageDom, XML.PERIOD.value(), version.getDosage().getPeriod());
+            versionDom.appendChild(dosageDom);
+        }
+
+        private void addTextToDom(Element parentDom, String elementName, String data) {
+            Element elementDom = document.createElement(elementName);
+            elementDom.setTextContent(data);
+            parentDom.appendChild(elementDom);
+        }
+    }
+
+}

@@ -1,0 +1,132 @@
+package ua.nure.koval.Practice6.part5;
+
+public class Tree<E extends Comparable<E>> {
+
+	private static final String INDENT = "   ";
+	private Node<E> root;
+
+
+	public boolean add(E e) {
+		if (root == null) {
+			root = new Node<E>(e, null, null);
+			return true;
+		}
+		return add(root, e);
+	}
+
+	public void add(E[] elements) {
+		for (int i = 0; i < elements.length; i++) {
+			add(elements[i]);
+		}
+	}
+
+	private boolean add(Node<E> node, E e) {
+		if (e.compareTo(node.element) > 0) {
+			if (node.right == null) {
+				node.right = new Node<E>(e, null, null);
+				return true;
+			}
+			return add(node.right, e);
+		}
+		if (e.compareTo(node.element) < 0) {
+			if (node.left == null) {
+				node.left = new Node<E>(e, null, null);
+				return true;
+			}
+			return add(node.left, e);
+		}
+		return false;
+	}
+
+
+	public void print() {
+		print(root, new StringBuilder());
+	}
+
+	private void print(Node<E> node, StringBuilder sb) {
+		if (node != null) {
+			sb.append(INDENT);
+			print(node.left, sb);
+			sb.append(INDENT);
+			if (node.equals(root)) {
+				System.out.println(node.element);
+				sb.delete(0, sb.length());
+			} else {
+				System.out.println(sb.toString() + node.element);
+			}
+			sb.append(INDENT);
+			print(node.right, sb);
+			sb.delete(0, sb.length());
+		}
+	}
+
+	public boolean remove(E element) {
+		final String left = "left";
+		final String right = "right";
+		Node<E> parent = null;
+		Node<E> current = root;
+		int component;
+		String last = null;
+
+		while (current != null && (component = current.element.compareTo(element)) != 0) {
+			parent = current;
+			if (component > 0) {
+				current = current.left;
+				last = left;
+			} else {
+				current = current.right;
+				last = right;
+			}
+		}
+		if (current == null) {
+			return false;
+		}
+
+		if (current.right == null) {
+			if (last.equals(right)) {
+				parent.right = current.left;
+			} else if (last.equals(left)) {
+				parent.left = current.left;
+			} else {
+				root = current.left;
+			}
+		}
+
+		if (current.left == null) {
+			if (last.equals(right)) {
+				parent.right = current.right;
+			} else if (last.equals(left)) {
+				parent.left = current.right;
+			} else {
+				root = current.right;
+			}
+		}
+
+		Node<E> replace = current.right;
+		parent = current;
+		while (replace.left != null) {
+			parent = replace;
+			replace = replace.left;
+		}
+		current.element = replace.element;
+		if (parent.equals(current)) {
+			parent.right = replace.right;
+		} else {
+			parent.left = replace.right;
+		}
+		return true;
+	}
+
+	private class Node<E> {
+
+		private E element;
+		private Node<E> left;
+		private Node<E> right;
+
+		public Node(E element, Node<E> left, Node<E> right) {
+			this.element = element;
+			this.left = left;
+			this.right = right;
+		}
+	}
+}

@@ -1,0 +1,22 @@
+body {
+    background-image: url("http://placekitten.com/1400/900");
+    min-height: 600px;
+}
+
+.h-name {
+    letter-spacing: 5px;
+    line-height: 150px;
+}
+
+table, tr, th, td, p {
+    color: #dff0d8;
+    border-color: #dff0d8;
+    text-shadow: #000000 0.5px 0.5px;
+    width: 200px;
+    height: 60px;
+    style: overflow;
+}
+
+* {
+    text-shadow: #dff0d8 1px 1px;
+}

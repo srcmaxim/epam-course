@@ -1,0 +1,46 @@
+package ua.nure.koval.Practice4;
+
+import org.junit.After;
+import org.junit.Before;
+import org.junit.Test;
+
+import java.io.ByteArrayInputStream;
+import java.io.ByteArrayOutputStream;
+import java.io.OutputStream;
+import java.io.PrintStream;
+
+import static org.junit.Assert.assertEquals;
+
+public class Part1Test {
+
+    @Test
+    public void uppercaseWordsThatBiggerThan3Character() throws Exception {
+        String seed = "Hello you my world"+System.lineSeparator()+"my little Friend";
+        ByteArrayInputStream in = new ByteArrayInputStream(seed.getBytes(Part1.ENCODING));
+        ByteArrayOutputStream out = new ByteArrayOutputStream(seed.length() * 2);
+
+        Part1.input(in, out);
+
+        String expected = "HELLO you my WORLD"+System.lineSeparator()+"my LITTLE FRIEND"+System.lineSeparator();
+        String actual = new String(out.toByteArray());
+
+        assertEquals(expected, actual);
+    }
+
+    @Test
+    public void uppercaseWordsFromDefaultFile() throws Exception {
+        String expected =
+                "≈—À» œ–»ÀŒ∆≈Õ»≈ —◊»“€¬¿≈“ »Õ‘Œ–Ã¿÷»ﬁ ËÁ ‘¿…À¿," + System.lineSeparator() +
+                        "ÚÓ Õ≈Œ¡’Œƒ»ÃŒ ” ¿«¿“‹  Œƒ»–Œ¬ ”, ‚ " + System.lineSeparator() +
+                        " Œ“Œ–Œ… ÓÌ‡ (»Õ‘Œ–Ã¿÷»ﬂ) «¿œ»—¿Õ¿." + System.lineSeparator();
+        ByteArrayOutputStream out = new ByteArrayOutputStream(expected.length() * 4);
+        System.setOut(new PrintStream(out));
+
+        Part1.main(new String[0]);
+
+        String actual = new String(out.toByteArray());
+
+        assertEquals(expected, actual);
+    }
+
+}

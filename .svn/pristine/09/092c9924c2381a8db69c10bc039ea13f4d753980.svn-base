@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--  XML schema -->
+
+<xsd:schema xmlns:xsd="http://www.w3.org/2001/XMLSchema"
+            xmlns:tns="http://knure.kharkov.ua/jt/st3example"
+            targetNamespace="http://knure.kharkov.ua/jt/st3example">
+
+    <xsd:element name="Test">
+        <xsd:complexType>
+            <xsd:sequence>
+                <xsd:element name="Question"
+                             type="tns:Question" maxOccurs="unbounded"/>
+            </xsd:sequence>
+        </xsd:complexType>
+    </xsd:element>
+
+    <xsd:complexType name="Question">
+        <xsd:sequence>
+            <xsd:element name="QuestionText" type="xsd:string"/>
+            <xsd:sequence>
+                <xsd:element name="Answer" type="tns:Answer" maxOccurs="4"/>
+            </xsd:sequence>
+        </xsd:sequence>
+    </xsd:complexType>
+
+    <xsd:complexType name="Answer" mixed="true">
+        <xsd:attribute name="correct" type="xsd:boolean" default="false"/>
+    </xsd:complexType>
+</xsd:schema>

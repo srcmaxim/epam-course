@@ -1,0 +1,33 @@
+package ua.nure.koval.Practice4;
+
+import org.junit.Test;
+
+import java.io.ByteArrayOutputStream;
+import java.io.PrintStream;
+import java.nio.charset.Charset;
+import java.util.ArrayList;
+import java.util.List;
+
+import static org.junit.Assert.assertEquals;
+
+public class Part1Test {
+
+
+    @Test
+    public void uppercaseWordsFromDefaultFile() throws Exception {
+        List<String> expected = new ArrayList<String>() {{
+            add("ÅÑËÈ ÏĞÈËÎÆÅÍÈÅ Ñ×ÈÒÛÂÀÅÒ ÈÍÔÎĞÌÀÖÈŞ èç ÔÀÉËÀ,");
+            add("òî ÍÅÎÁÕÎÄÈÌÎ ÓÊÀÇÀÒÜ ÊÎÄÈĞÎÂÊÓ, â ");
+            add("ÊÎÒÎĞÎÉ îíà (ÈÍÔÎĞÌÀÖÈß) ÇÀÏÈÑÀÍÀ.");
+        }};
+        ByteArrayOutputStream out = new ByteArrayOutputStream(100);
+        System.setOut(new PrintStream(out));
+
+        Part1.input(expected, out);
+
+        String actual = new String(out.toByteArray(), Charset.forName(Part1.ENCODING));
+
+        assertEquals("uppercaseWordsFromDefaultFile", expected, actual);
+    }
+
+}

@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--  XML schema -->
+
+<!--============================================================
+This XML schema contains targetNamespace:
+	http://knure.kharkov.ua/jt/st3example
+It means all global declared names of elements, attribute 
+and types belong to this targetNamespace. At the same time all 
+other declared names belong to NO namespace at all.
+=============================================================-->
+<xsd:schema xmlns:xsd="http://www.w3.org/2001/XMLSchema"
+            xmlns:tns="http://knure.kharkov.ua/jt/st3example"
+            targetNamespace="http://knure.kharkov.ua/jt/st3example">
+
+    <!--============================================================
+    'Test' is a globally declared element name automatically belonging
+    to the target namespace.
+    =============================================================-->
+    <xsd:element name="Test">
+        <xsd:complexType>
+            <xsd:sequence>
+
+                <!--============================================================
+                'Question' is a locally declared element name belonging to
+                NO namespace.
+
+                When we refer (NOT declare!!!) to the question type
+                (its name is also 'Question') we must indicate that it belongs
+                to the target namespace
+                    http://knure.kharkov.ua/jt/st3example
+                because this type is declared globally.
+
+                So we should directly declare this target namespace first and
+                bind it to some prefix ('tns' as usual):
+                    xmlns:tns="http://knure.kharkov.ua/jt/st3example
+                After that we can refer to the names from this namespace
+                with the help of prefix:
+                    tns:Question
+
+                'tns:Question' is so-colled qualified name.
+                =============================================================-->
+                <xsd:element name="Question"
+                             type="tns:Question" maxOccurs="unbounded"/>
+            </xsd:sequence>
+        </xsd:complexType>
+    </xsd:element>
+
+    <!--============================================================
+    'Question' is globally declared name of type and it automatically
+    belonging to the target namespace.
+    =============================================================-->
+    <xsd:complexType name="Question">
+        <xsd:sequence>
+
+            <!--============================================================
+            'QuestionType' is locally declared name of element belonging
+            to no namespace.
+            =============================================================-->
+            <xsd:element name="QuestionText" type="xsd:string"/>
+            <xsd:sequence>
+
+                <!--============================================================
+                'Answer' is a locally declared element name belonging to
+                no namespace.
+                Other name 'Answer' is a name of an answer type, referred to with
+                the prefix of the target namespace, because it belongs to the
+                target namespace.
+                =============================================================-->
+                <xsd:element name="Answer" type="tns:Answer" maxOccurs="4"/>
+            </xsd:sequence>
+        </xsd:sequence>
+    </xsd:complexType>
+
+    <!--============================================================
+    'Answer' is a globally declared type name and it automatically
+    belonging to the target namespace.
+    =============================================================-->
+    <xsd:complexType name="Answer" mixed="true">
+        <xsd:attribute name="correct" type="xsd:boolean" default="false"/>
+    </xsd:complexType>
+</xsd:schema>

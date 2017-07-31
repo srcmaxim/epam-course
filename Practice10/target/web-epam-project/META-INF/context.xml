@@ -1,0 +1,9 @@
+<Context>
+    <Resource name="jdbc/testdb" auth="Container" type="javax.sql.DataSource"
+              username="DBUser"
+              password="T4b+k8!zD!_?Tex5"
+              driverClassName="com.mysql.jdbc.Driver"
+              url="jdbc:mysql://localhost/epam_project"
+              maxActive="10"
+    />
+</Context>

@@ -1,0 +1,20 @@
+
+Gsquid:S1989"&Add a "try/catch" block for "forward".(Şø²åıÿÿÿÿ8ö³„æÁ+
+Gsquid:S1989"+Add a "try/catch" block for "sendRedirect".(ÄĞú†8«ƒÜæÁ+
+;squid:S2095"Close this "PreparedStatement".(öŠŞ8â‰¤æÁ+
+`squid:S2147"DCombine this catch with the one at line 69, which has the same body.(É®£8²ª‹æÁ+
+Dsquid:S1148"#Use a logger to log this exception.(€ÉÔ…ıÿÿÿÿ8²ª‹æÁ+
+Dsquid:S1148"#Use a logger to log this exception.(€ÉÔ…ıÿÿÿÿ8²ª‹æÁ+
+Fsquid:S1172"*Remove this unused method parameter "req".(ˆŸòÕ8üåæÁ+
+gsquid:S1192"FDefine a constant instead of duplicating this literal "login" 3 times.(¶ó¬Çşÿÿÿÿ8ÜÿëæÁ+
+n
+squid:S134"NRefactor this code to not nest more than 3 if/for/while/switch/try statements.(ÇÀìàúÿÿÿÿ8Î…ÈæÁ+
+Asquid:S1166"%Either log or rethrow this exception.(É®£8²ª‹æÁ+
+Nsquid:S1135"2Complete the task associated to this TODO comment.(¬‹¬ª8â‡ÂæÁ+
+Gsquid:S1989"+Add a "try/catch" block for "sendRedirect".(ÄĞú†8ˆüÜæÁ+
+Fsquid:S1166"%Either log or rethrow this exception.(Õ¡ËŞøÿÿÿÿ8²ª‹æÁ+
+rsquid:S00120"WRename this package name to match the regular expression '^[a-z]+(\.[a-z][a-z0-9]*)*$'.(ñîÀ²ÿÿÿÿÿ
+vsquid:S00122"TAt most one statement is allowed per line, but 2 statements were found on this line.( ¢‹ìùÿÿÿÿ8â–İæÁ+
+Gsquid:S1989"&Add a "try/catch" block for "forward".(Şø²åıÿÿÿÿ8ö³„æÁ+
+Lsquid:S1989"+Add a "try/catch" block for "sendRedirect".( ¢‹ìùÿÿÿÿ8â–İæÁ+
+squid:S1186"€Add a nested comment explaining why this method is empty, throw an UnsupportedOperationException or complete the implementation.(ˆŸòÕ8õñİæÁ+

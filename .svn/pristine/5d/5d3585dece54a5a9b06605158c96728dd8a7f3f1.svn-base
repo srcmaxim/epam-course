@@ -1,0 +1,47 @@
+package ua.nure.koval.Practice6.part4;
+
+import java.util.HashMap;
+import java.util.Map;
+import java.util.TreeSet;
+
+public class Graph {
+
+    private Map<Integer, TreeSet<Integer>> vertexMap = new HashMap<>();
+
+    public void addVertex(int vertex) {
+        if (!hasVertex(vertex)) {
+            vertexMap.put(new Integer(vertex), new TreeSet<>());
+        }
+    }
+
+    public boolean hasVertex(int vertex) {
+        return vertexMap.containsKey(vertex);
+    }
+
+    public boolean hasEdge(int vertexA, int vertexB) {
+        if (!(hasVertex(vertexA) || hasVertex(vertexB))) {
+            return false;
+        }
+        return vertexMap.get(vertexA).contains(vertexB)
+                && vertexMap.get(vertexB).contains(vertexA);
+    }
+
+    public void addEdge(int vertexA, int vertexB) {
+        addVertex(vertexA);
+        addVertex(vertexB);
+        vertexMap.get(vertexA).add(vertexB);
+        vertexMap.get(vertexB).add(vertexA);
+    }
+
+    public void deleteEdge(int vertexA, int vertexB) {
+        if (!hasEdge(vertexA, vertexB)) {
+            return;
+        }
+        vertexMap.get(vertexA).remove(vertexB);
+        vertexMap.get(vertexB).remove(vertexA);
+    }
+
+    public void print() {
+        System.out.println(vertexMap);
+    }
+}

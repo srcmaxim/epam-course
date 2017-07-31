@@ -1,0 +1,128 @@
+package ua.nure.koval.Practice4;
+
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.IOException;
+import java.nio.charset.Charset;
+import java.nio.file.Files;
+import java.util.Collection;
+import java.util.Collections;
+import java.util.List;
+import java.util.Scanner;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
+
+public class Part3 {
+
+	Part3(String fileName) {
+		setFileName(fileName);
+	}
+
+	private static final String ENCODING = "CP1251";
+
+	private static String fileName;
+
+	public String getFileName() {
+		return fileName;
+	}
+
+	public final void setFileName(String fileName) {
+		this.fileName = fileName;
+	}
+
+	private static final String REGEXP_FOR_INTEGER = "(^|\\s)(\\d+)(\\s|$)";
+	private static final String REGEXP_FOR_DOUBLE = "(^|\\s)([\\d+]*\\.\\d*)(\\s|$)";
+	private static final String REGEXP_FOR_CHAR = "(?i)(^|(?<=\\s))[\\u0410-\\u044Fa-zA-Z]($|(?=\\s))";
+	private static final String REGEXP_FOR_STRING = "[\\u0410-\\u044Fa-zA-Z]{2,}";
+
+	public static void main(String[] args) {
+		Part3 part3 = new Part3("part3.txt");
+		part3.input();
+
+	}
+
+	public void input() {
+		Scanner sc = new Scanner(System.in, ENCODING);
+		while (sc.hasNext()) {
+			String str = sc.nextLine();
+			switch (str) {
+				case "int":
+					System.out.println(integerValue());
+					break;
+				case "double":
+					System.out.println(doubleValue());
+					break;
+				case "char":
+					System.out.println(charValue());
+					break;
+				case "String":
+					System.out.println(stringValue());
+					break;
+				case "stop":
+					return;
+				default:
+					throw new IllegalArgumentException(str + "is illegal");
+			}
+
+		}
+	}
+
+	public String integerValue() {
+		StringBuilder sb = new StringBuilder();
+		Matcher m = getMatcher(REGEXP_FOR_INTEGER);
+		while (m.find()) {
+			sb.append(m.group(2) + " ");
+		}
+		return getSubstring(sb);
+	}
+
+	public String doubleValue() {
+		StringBuilder sb = new StringBuilder();
+		Matcher m2 = getMatcher(REGEXP_FOR_DOUBLE);
+		while (m2.find()) {
+			sb.append(m2.group(2) + " ");
+		}
+		return getSubstring(sb);
+
+	}
+
+	public String charValue() {
+		StringBuilder sb = new StringBuilder();
+		Matcher m3 = getMatcher(REGEXP_FOR_CHAR);
+		while (m3.find()) {
+			sb.append(m3.group() + " ");
+		}
+		return getSubstring(sb);
+
+	}
+
+	public String stringValue() {
+		StringBuilder sb = new StringBuilder();
+		Matcher m4 = getMatcher(REGEXP_FOR_STRING);
+		while (m4.find()) {
+			sb.append(m4.group() + " ");
+		}
+		return getSubstring(sb);
+
+	}
+
+	private Matcher getMatcher(String regex) {
+		Pattern p2 = Pattern.compile(regex);
+		return p2.matcher(getString().get(0));
+	}
+
+	private String getSubstring(StringBuilder sb) {
+		return sb.toString().substring(0, sb.length() - 1);
+	}
+
+	public List<String> getString() {
+		try {
+			return Files.readAllLines(new File(getFileName()).toPath(), Charset.forName(ENCODING));
+		} catch (FileNotFoundException e) {
+			System.out.println(getFileName() + " not found");
+		} catch (IOException e) {
+			System.out.println(getFileName() + " read error");
+		}
+		return Collections.emptyList();
+	}
+}

@@ -1,0 +1,75 @@
+package ua.nure.koval.SummaryTask3.util;
+
+import ua.nure.koval.SummaryTask3.entity.Medicine;
+import ua.nure.koval.SummaryTask3.entity.Version;
+
+import java.util.Collections;
+import java.util.Comparator;
+import java.util.List;
+
+/**
+ * Collection of Sorts.
+ * Sorts collection of <code>Medicine</code> entities
+ * in order by given comparator.
+ *
+ * @author M.Koval
+ */
+public class Sorter {
+
+    /*
+     * Comparators for Medicines
+     */
+
+    public static final Comparator<Medicine> COMPARE_BY_ANALOG_NUMBER = new Comparator<Medicine>() {
+        @Override
+        public int compare(Medicine o1, Medicine o2) {
+            return o1.getAnalogs().size() - o2.getAnalogs().size();
+        }
+    };
+    public static final Comparator<Medicine> COMPARE_BY_NAME = new Comparator<Medicine>() {
+        @Override
+        public int compare(Medicine o1, Medicine o2) {
+            int i = o1.getName().compareTo(o2.getName());
+            if (i == 0) {
+                return COMPARE_BY_ANALOG_NUMBER.compare(o1, o2);
+            }
+            return i;
+        }
+    };
+    public static final Comparator<Version> COMPARE_BY_EXPIRATION_DATE = new Comparator<Version>() {
+
+        @Override
+        public int compare(Version o1, Version o2) {
+            return o1.getCertificate().getExpirationDate()
+                    .compareTo(o2.getCertificate().getExpirationDate());
+        }
+    };
+    public static final Comparator<Medicine> COMPARE_BY_VERSIONS_MIN_EXPARATION_DATE = new Comparator<Medicine>() {
+        @Override
+        public int compare(Medicine o1, Medicine o2) {
+            Version min1 = Collections.min(o1.getVersions(), COMPARE_BY_EXPIRATION_DATE);
+            Version min2 = Collections.min(o2.getVersions(), COMPARE_BY_EXPIRATION_DATE);
+            return COMPARE_BY_EXPIRATION_DATE.compare(min1, min2);
+        }
+    };
+
+    private Sorter() {
+    }
+
+    /*
+     * Sorters for Medicines
+     */
+
+    public static void sortByName(List<Medicine> medecines) {
+        Collections.sort(medecines, COMPARE_BY_NAME);
+    }
+
+    public static void sortByAnalogNumber(List<Medicine> medecines) {
+        Collections.sort(medecines, COMPARE_BY_ANALOG_NUMBER.reversed());
+    }
+
+    public static void sortByVersionsMinExparationDate(List<Medicine> medecines) {
+        Collections.sort(medecines, COMPARE_BY_VERSIONS_MIN_EXPARATION_DATE);
+    }
+
+}

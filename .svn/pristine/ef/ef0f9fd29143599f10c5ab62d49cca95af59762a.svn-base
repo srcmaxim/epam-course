@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Example: how to bind XML and XSL documents. Just open this file in browser -->
+<!-- WARNING! Test.xsl must be present in the same folder as this file -->
+<?xml-stylesheet href="Test.xsl" type="text/xsl"?>
+
+<st3:Test xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+          xmlns:st3="http://knure.kharkov.ua/jt/st3example"
+          xsi:schemaLocation="http://knure.kharkov.ua/jt/st3example Test.xsd">
+
+    <Question>
+        <QuestionText>Укажите Byte Of Mark</QuestionText>
+        <Answer>FFFF</Answer>
+        <Answer correct="true">FEFF</Answer>
+    </Question>
+
+    <Question>
+        <QuestionText>Укажите унарные операции</QuestionText>
+        <Answer correct="true">+</Answer>
+        <Answer correct="true">-</Answer>
+        <Answer>&lt;</Answer>
+        <Answer>&gt;&gt;&gt;</Answer>
+    </Question>
+
+    <Question>
+        <QuestionText>Укажите некорректный идентификатор</QuestionText>
+        <Answer correct="true">int</Answer>
+        <Answer>main</Answer>
+        <Answer correct="true">class</Answer>
+    </Question>
+</st3:Test>

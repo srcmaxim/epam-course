@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ProjectModuleManager">
+    <modules>
+      <module fileurl="file://$PROJECT_DIR$/Practice1/Practice1.iml" filepath="$PROJECT_DIR$/Practice1/Practice1.iml" />
+      <module fileurl="file://$PROJECT_DIR$/Practice10/Practice10.iml" filepath="$PROJECT_DIR$/Practice10/Practice10.iml" />
+      <module fileurl="file://$PROJECT_DIR$/Practice2/Practice2.iml" filepath="$PROJECT_DIR$/Practice2/Practice2.iml" />
+      <module fileurl="file://$PROJECT_DIR$/Practice3/Practice3.iml" filepath="$PROJECT_DIR$/Practice3/Practice3.iml" />
+      <module fileurl="file://$PROJECT_DIR$/Practice4/Practice4.iml" filepath="$PROJECT_DIR$/Practice4/Practice4.iml" />
+      <module fileurl="file://$PROJECT_DIR$/Practice5/Practice5.iml" filepath="$PROJECT_DIR$/Practice5/Practice5.iml" />
+      <module fileurl="file://$PROJECT_DIR$/Practice6/Practice6.iml" filepath="$PROJECT_DIR$/Practice6/Practice6.iml" />
+      <module fileurl="file://$PROJECT_DIR$/Practice8/Practice8.iml" filepath="$PROJECT_DIR$/Practice8/Practice8.iml" />
+      <module fileurl="file://$PROJECT_DIR$/Practice9/Practice9.iml" filepath="$PROJECT_DIR$/Practice9/Practice9.iml" />
+      <module fileurl="file://$PROJECT_DIR$/SummaryTask3/SummaryTask3.iml" filepath="$PROJECT_DIR$/SummaryTask3/SummaryTask3.iml" />
+    </modules>
+  </component>
+</project>

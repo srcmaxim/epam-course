@@ -1,0 +1,126 @@
+package ua.nure.koval.Practice6.part6;
+
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.util.LinkedHashMap;
+import java.util.Map;
+import java.util.Scanner;
+import java.util.TreeMap;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
+
+public final class Part6 {
+
+    private String fileName;
+    private String[] arr;
+    private Map<String, Integer> input;
+    private Map<String, Integer> output;
+
+    public Part6() {
+        input = new LinkedHashMap<>();
+        output = new TreeMap<>(new Sort(input));
+    }
+
+    private String getInput() {
+        StringBuilder sb = new StringBuilder();
+        try {
+            Scanner sc = new Scanner(new File(fileName), "CP1251");
+            while (sc.hasNext()) {
+                sb.append(sc.next()).append(" ");
+            }
+            sc.close();
+        } catch (FileNotFoundException e) {
+            System.err.println("File " + fileName + " not found");
+        }
+        return sb.toString();
+    }
+
+    public final void initialize() {
+        StringBuilder sb = new StringBuilder();
+        Pattern p = Pattern.compile("[a-zA-Z]+");
+        Matcher m = p.matcher(getInput());
+        while (m.find()) {
+            sb.append(m.group() + " ");
+        }
+        arr = sb.toString().split(" ");
+    }
+
+    public void frequency() {
+        for (int i = 0; i < arr.length; i++) {
+            input.put(arr[i], input.containsKey(arr[i])
+                    ? input.get(arr[i]) + 1
+                    : 1);
+        }
+        output.putAll(input);
+    }
+
+    public void length() {
+        for (int i = 0; i < arr.length; i++) {
+            if (input.containsKey(arr[i])) {
+                continue;
+            }
+            input.put(arr[i], arr[i].length());
+        }
+        output.putAll(input);
+    }
+
+    private void getResult() {
+        int count = 0;
+        for (Map.Entry<String, Integer> entry : output.entrySet()) {
+            if (count == 3) {
+                return;
+            }
+            System.out.println(entry.getKey() + " ==> " + entry.getValue());
+            count++;
+        }
+    }
+
+    private void getResultWithoutValue() {
+        int count = 0;
+        for (Map.Entry<String, Integer> entry : input.entrySet()) {
+            if (count == 3) {
+                return;
+            }
+            if (entry.getValue() > 1) {
+                System.out.println(new StringBuilder(entry.getKey()).reverse().toString().toUpperCase());
+                count++;
+            }
+        }
+    }
+
+    private boolean console(String input, String fileName, String task,
+                            String operation) {
+        if (!(input.equals("--input") || input.equals("-i"))) {
+            System.err.println("Wrong operation");
+            return false;
+        }
+        if (!(task.equals("--task") || task.equals("-t"))) {
+            System.err.println("Wrong task");
+            return false;
+        }
+
+        this.fileName = fileName;
+        initialize();
+
+        if (operation.equals("frequency")) {
+            frequency();
+            getResult();
+            return true;
+        }
+        if (operation.equals("length")) {
+            length();
+            getResult();
+            return true;
+        }
+        if (operation.equals("duplicates")) {
+            frequency();
+            getResultWithoutValue();
+            return true;
+        }
+        return false;
+    }
+
+    public static void main(String[] args) {
+        new Part6().console(args[0], args[1], args[2], args[3]);
+    }
+}

@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--  Input XML document. This XML is INVALID against Test-with-targetNamespace.xsd -->
+
+<!--============================================================
+When we use xsi:schemaLocation in XML we directly determine that
+XSD has a target namespace. So, all globally declared names in XSD 
+should be QUALIFIED with some prefix in XML and this prefix must
+be binded with that target namespace.
+
+In this XML document we use NO prefix when declare the target namespace.
+	xmlns="http://knure.kharkov.ua/jt/st3example"
+	
+In this way we bind the target namespace with the DEFAULT NAMESPACE.
+And all globally declared names in XSD should not be qualified with
+prefix in XML.
+
+At this time all LOCALLY declared names in XSD automatically belong to
+the default namespace in XML, because we use no prefix for them.
+
+So we should indicate in XSD that all locally declared names belong to
+the target namespace. To do this we should use attribute elementFormDefault: 
+	elementFormDefault="qualified"
+=============================================================-->
+<Test xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+      xmlns="http://knure.kharkov.ua/jt/st3example"
+      xsi:schemaLocation=
+              "http://knure.kharkov.ua/jt/st3example
+			Test-with-targetNamespace.xsd">
+
+    <!--============================================================
+    'Question' is a locally declared element name in XSD.
+    It does not belong to any namespace. So we have a validation error here.
+    (this XML not valid against its schema)
+    To make document valid, you should put all locally declared elements names in XSD
+    into its targetNamespace with the help of attribute elementFormDefault:
+        elementFormDefault="qualified"	<== this is xsd:schema attribute in XSD
+
+    For attributes names it is possible to put all locally declared
+    attributes names into the target namespace with the help of
+    attributeFormDefault attribute:
+        elementFormDefault="qualified" <== this is xsd:schema attribute in XSD
+
+    WARNING!!!
+    ATTRIBUTES CANNOT BELONG TO DEFAULT NAMESPACE!!!
+    If you put attributes names into a target namespace in XSD
+    and bind a target namespace with the default namespace in XML, you obtain
+    validation error.
+    =============================================================-->
+    <Question>
+        <QuestionText>Вопрос 1</QuestionText>
+        <Answer>Вариант 1.1</Answer>
+        <Answer correct="true">Вариант 1.3</Answer>
+        <Answer>Вариант 1.2</Answer>
+        <Answer>Вариант 1.4</Answer>
+    </Question>
+
+    <Question>
+        <QuestionText>Вопрос 3</QuestionText>
+        <Answer>Вариант 3.2</Answer>
+        <Answer correct="true">Вариант 3.3</Answer>
+        <Answer correct="true">Вариант 3.1</Answer>
+    </Question>
+
+    <Question>
+        <QuestionText>Вопрос 2</QuestionText>
+        <Answer>Вариант 2.1</Answer>
+        <Answer correct="true">Вариант 2.2</Answer>
+    </Question>
+</Test>

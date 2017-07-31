@@ -1,0 +1,8 @@
+
+Gsquid:S1989"&Add a "try/catch" block for "forward".(Şø²åıÿÿÿÿ8şæãäÁ+
+Gsquid:S1989"&Add a "try/catch" block for "forward".(Şø²åıÿÿÿÿ8ŒâÃäÁ+
+\squid:UselessImportCheck"4Remove this unused import 'org.apache.log4j.Logger'.(ñè½8ªóÖäÁ+
+Gsquid:S1989"&Add a "try/catch" block for "forward".(Şø²åıÿÿÿÿ8şæãäÁ+
+Gsquid:S1989"&Add a "try/catch" block for "forward".(Şø²åıÿÿÿÿ8ŒâÃäÁ+
+fsquid:UselessImportCheck"8Remove this unused import 'org.apache.log4j.LogManager'.(Øê˜Ìüÿÿÿÿ8ªóÖäÁ+
+rsquid:S00120"WRename this package name to match the regular expression '^[a-z]+(\.[a-z][a-z0-9]*)*$'.(ú·íùÿÿÿÿ

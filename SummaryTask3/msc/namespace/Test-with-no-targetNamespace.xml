@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--  Input XML document. This XML is valid against Test-with-no-targetNamespace.xsd -->
+
+<!--============================================================
+When we use xsi:noNamespaceSchemaLocation in XML 
+we directly determine that XSD has NO target namespace.
+ALL declared in XSD names we used in XML belong to NO NAMESPACE.
+=============================================================-->
+<Test xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+      xsi:noNamespaceSchemaLocation="Test-with-no-targetNamespace.xsd">
+    <Question>
+        <QuestionText>Вопрос 1</QuestionText>
+        <Answer>Вариант 1.1</Answer>
+        <Answer correct="true">Вариант 1.3</Answer>
+        <Answer>Вариант 1.2</Answer>
+        <Answer>Вариант 1.4</Answer>
+    </Question>
+
+    <Question>
+        <QuestionText>Вопрос 3</QuestionText>
+        <Answer>Вариант 3.2</Answer>
+        <Answer correct="true">Вариант 3.3</Answer>
+        <Answer correct="true">Вариант 3.1</Answer>
+    </Question>
+
+    <Question>
+        <QuestionText>Вопрос 2</QuestionText>
+        <Answer>Вариант 2.1</Answer>
+        <Answer correct="true">Вариант 2.2</Answer>
+    </Question>
+</Test>
